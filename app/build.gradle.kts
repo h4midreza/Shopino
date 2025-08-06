@@ -78,6 +78,7 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.foundation)
     implementation(libs.androidx.constraintlayout.compose)
+    implementation(libs.androidx.material.icons.extended)
 
     // --- Accompanist ---
     implementation(libs.accompanist.pager)
