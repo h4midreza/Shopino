@@ -103,5 +103,24 @@
     <dimen name="detail_thumbnail_size">55dp</dimen>
     <dimen name="detail_thumbnail_border_width">1dp</dimen>
     <dimen name="detail_thumbnail_internal_padding">4dp</dimen>
-</resources>
 
+    <!-- Profile Screen specific -->
+    <dimen name="profile_spacer_height">8dp</dimen>
+    <dimen name="profile_section_spacer_height">16dp</dimen>
+    <dimen name="profile_divider_padding_vertical">16dp</dimen>
+    <dimen name="identity_card_padding_horizontal">16dp</dimen>
+    <dimen name="identity_card_column_padding">12dp</dimen>
+    <dimen name="identity_card_spacer_height">8dp</dimen>
+    <dimen name="order_item_icon_spacer_height">4dp</dimen>
+    <dimen name="orders_section_padding_horizontal">16dp</dimen>
+    <dimen name="profile_header_padding">16dp</dimen>
+    <dimen name="profile_menu_padding_horizontal">8dp</dimen>
+    <dimen name="profile_menu_item_padding_vertical">4dp</dimen>
+    <dimen name="quick_access_section_padding_horizontal">16dp</dimen>
+    <dimen name="quick_access_horizontal_arrangement_space">8dp</dimen>
+    <dimen name="action_card_width">140dp</dimen>
+    <dimen name="action_card_height">80dp</dimen>
+    <dimen name="action_card_row_padding">12dp</dimen>
+    <dimen name="action_card_icon_spacer_width">8dp</dimen>
+
+</resources>
