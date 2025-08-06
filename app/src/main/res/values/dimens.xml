@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Common paddings -->
+    <dimen name="padding_standard">16dp</dimen>
+    <dimen name="padding_small">8dp</dimen>
+    <dimen name="padding_extra_small">4dp</dimen>
+
+    <!-- Banner Carousel -->
+    <dimen name="banner_carousel_height">170dp</dimen>
+    <dimen name="banner_dot_size">8dp</dimen>
+    <dimen name="banner_dot_spacing">4dp</dimen>
+
+    <!-- Bottom Menu -->
+    <dimen name="bottom_menu_horizontal_padding">16dp</dimen>
+    <dimen name="bottom_menu_bottom_padding">32dp</dimen>
+    <dimen name="bottom_menu_corner_radius">8dp</dimen>
+    <dimen name="bottom_menu_item_height">60dp</dimen>
+    <dimen name="bottom_menu_item_internal_padding">8dp</dimen>
+    <dimen name="bottom_menu_item_font_size">10sp</dimen>
+
+    <!-- Category Item -->
+    <dimen name="category_item_corner_radius">8dp</dimen>
+    <dimen name="category_item_image_size">45dp</dimen>
+    <dimen name="category_item_font_size">12sp</dimen>
+    <dimen name="category_item_text_padding_end">8dp</dimen>
+
+    <!-- Category List -->
+    <dimen name="category_list_spacing">16dp</dimen>
+    <dimen name="category_list_content_padding_horizontal">16dp</dimen>
+    <dimen name="category_list_content_padding_vertical">16dp</dimen>
+
+    <!-- Header -->
+    <dimen name="header_padding_top">48dp</dimen>
+    <dimen name="header_username_font_size">16sp</dimen>
+    <dimen name="header_icon_spacing">16dp</dimen>
+
+    <!-- Section Title -->
+    <dimen name="section_title_font_size">18sp</dimen>
+    <dimen name="section_title_padding_top">16dp</dimen>
+    <dimen name="padding_medium">8dp</dimen>
+    <dimen name="padding_large">16dp</dimen>
+    <dimen name="padding_xlarge">32dp</dimen> <!-- مثال -->
+    <dimen name="padding_bottom_for_summary">200dp</dimen>
+
+    <dimen name="corner_radius_medium">10dp</dimen>
+    <dimen name="elevation_medium">6dp</dimen>
+
+    <dimen name="font_size_small">12sp</dimen>
+    <dimen name="font_size_normal">14sp</dimen>
+    <dimen name="font_size_medium">16sp</dimen>
+    <dimen name="font_size_large">18sp</dimen>
+    <dimen name="font_size_xlarge">20sp</dimen>
+    <dimen name="font_size_title">25sp</dimen>
+
+    <!-- CartScreen specific -->
+    <dimen name="cart_summary_padding_top">16dp</dimen>
+    <dimen name="cart_summary_row_vertical_padding">8dp</dimen>
+    <dimen name="cart_divider_height">1dp</dimen>
+    <dimen name="cart_checkout_button_height">50dp</dimen>
+    <dimen name="cart_lazy_column_padding_top">8dp</dimen>
+
+    <dimen name="cart_item_vertical_padding">8dp</dimen>
+    <dimen name="cart_item_image_size">90dp</dimen>
+    <dimen name="cart_item_image_padding">8dp</dimen>
+    <dimen name="cart_item_text_margin_start">12dp</dimen>
+    <dimen name="cart_item_text_margin_top">4dp</dimen>
+    <dimen name="cart_item_quantity_row_horizontal_padding">8dp</dimen>
+    <dimen name="cart_item_quantity_row_vertical_padding">4dp</dimen>
+    <dimen name="cart_item_quantity_text_padding">8dp</dimen>
+
+    <dimen name="cart_top_bar_padding_top">36dp</dimen>
+    <dimen name="cart_top_bar_padding_bottom">16dp</dimen>
+    <dimen name="cart_top_bar_horizontal_padding">8dp</dimen>
+
+    <dimen name="corner_radius_standard">8dp</dimen>
+    <dimen name="font_size_title_large">23sp</dimen>
+    <dimen name="font_size_title_medium">22sp</dimen>
+    <dimen name="font_size_body">14sp</dimen>
+    <dimen name="font_size_button">18sp</dimen>
+    <dimen name="font_size_caption">12sp</dimen>
+
+    <!-- DetailScreen specific -->
+    <dimen name="detail_top_bar_padding_vertical">16dp</dimen>
+    <dimen name="detail_top_bar_padding_top_specific">36dp</dimen>
+    <dimen name="detail_main_image_height">300dp</dimen>
+    <dimen name="detail_main_image_internal_padding">16dp</dimen>
+    <dimen name="detail_thumbnail_row_padding_vertical">16dp</dimen>
+    <dimen name="detail_title_price_row_padding_top">16dp</dimen>
+    <dimen name="detail_title_padding_end">16dp</dimen>
+    <dimen name="detail_rating_bar_padding_top">16dp</dimen>
+    <dimen name="detail_rating_star_padding_end">8dp</dimen>
+    <dimen name="detail_model_selector_row_padding_vertical">8dp</dimen>
+    <dimen name="detail_model_selector_item_padding_end">8dp</dimen>
+    <dimen name="detail_model_selector_item_height">48dp</dimen>
+    <dimen name="detail_model_selector_item_border_width">1dp</dimen>
+    <dimen name="detail_model_selector_item_internal_padding_horizontal">16dp</dimen>
+    <dimen name="detail_description_padding_vertical">16dp</dimen>
+    <dimen name="detail_add_to_cart_button_padding_end">8dp</dimen>
+    <dimen name="detail_add_to_cart_button_height">50dp</dimen>
+    <dimen name="detail_cart_icon_button_padding">8dp</dimen>
+
+    <dimen name="detail_thumbnail_padding">4dp</dimen>
+    <dimen name="detail_thumbnail_size">55dp</dimen>
+    <dimen name="detail_thumbnail_border_width">1dp</dimen>
+    <dimen name="detail_thumbnail_internal_padding">4dp</dimen>
+</resources>
+
