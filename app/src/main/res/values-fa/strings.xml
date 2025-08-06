@@ -50,4 +50,49 @@
     <string name="detail_add_to_cart_button">افزودن به سبد خرید</string>
     <string name="detail_cart_icon_description">سبد خرید</string>
     <string name="detail_image_placeholder_description">جایگزین تصویر</string>
+
+    <!-- Profile Screen -->
+    <string name="identity_verification_message">با تایید هویت می‌توانید امنیت حساب کاربری‌تان را افزایش دهید و از امکان «خرید اعتباری» نیز استفاده کنید.</string>
+    <string name="identity_verification_button">تایید هویت</string>
+    <string name="order_item_current">جاری</string>
+    <string name="order_item_delivered">تحویل شده</string>
+    <string name="order_item_returned">مرجوع شده</string>
+    <string name="profile_edit_button_description">ویرایش</string>
+    <string name="menu_item_orders">سفارش‌ها</string>
+    <string name="menu_item_my_lists">لیست‌های من</string>
+    <string name="menu_item_addresses">آدرس‌ها</string>
+    <string name="menu_item_messages">پیام‌ها</string>
+    <string name="menu_item_recent_views">بازدیدهای اخیر</string>
+    <string name="menu_item_account_info">اطلاعات حساب کاربری</string>
+    <string name="menu_item_settings">تنظیمات</string>
+    <string name="menu_item_logout">خروج از حساب کاربری</string>
+    <string name="quick_access_increase_balance">افزایش موجودی</string>
+    <string name="quick_access_buy_sell">خرید و فروش</string>
+    <string name="quick_access_shopino_missions">ماموریت‌های شاپینو</string>
+    <string name="order_item_icon_content_description">آیکون آیتم سفارش</string>
+    <string name="profile_menu_icon_content_description">آیکون آیتم منو</string>
+    <string name="action_card_icon_content_description">آیکون کارت عملیات</string>
+
+    <string name="profile_identity_verification_message">با تایید هویت می‌توانید امنیت حساب کاربری‌تان را افزایش دهید و از امکان «خرید اعتباری» نیز استفاده کنید.</string>
+    <string name="profile_identity_verification_button">تایید هویت</string>
+
+    <string name="profile_order_item_current">جاری</string>
+    <string name="profile_order_item_delivered">تحویل شده</string>
+    <string name="profile_order_item_returned">مرجوع شده</string>
+    <string name="profile_order_item_icon_content_description">آیکون وضعیت سفارش</string>
+
+    <string name="profile_menu_item_orders">سفارش‌ها</string>
+    <string name="profile_menu_item_my_lists">لیست‌های من</string>
+    <string name="profile_menu_item_addresses">آدرس‌ها</string>
+    <string name="profile_menu_item_messages">پیام‌ها</string>
+    <string name="profile_menu_item_recent_views">بازدیدهای اخیر</string>
+    <string name="profile_menu_item_account_info">اطلاعات حساب کاربری</string>
+    <string name="profile_menu_item_settings">تنظیمات</string>
+    <string name="profile_menu_item_logout">خروج از حساب کاربری</string>
+
+    <string name="profile_quick_access_increase_balance">افزایش موجودی</string>
+    <string name="profile_quick_access_buy_sell">خرید و فروش</string>
+    <string name="profile_quick_access_shopino_missions">ماموریت‌های شاپینو</string>
+    <string name="profile_action_card_icon_content_description">آیکون عملیات</string>
+
 </resources>
