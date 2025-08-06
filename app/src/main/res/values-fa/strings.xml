@@ -1,0 +1,53 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">شاپینو</string>
+    <string name="intro_title">
+        به <font color="#39c7a5"> شاپینو</font> خوش آمدید
+
+        <font color="#39c7a5">دروازه‌ای</font> به جدیدترین فناوری‌ها
+    </string>
+    <string name="intro_sub_title">برای کاوش طیف گسترده‌ای از محصولات دیجیتال پیشرفته وارد شوید.
+        هنوز حساب کاربری ندارید؟
+        همین الان ثبت نام کنید و از تجربه خریدی آسان و امن لذت ببرید</string>
+    <string name="lets_go">بزن بریم!</string>
+    <string name="sign">حساب کاربری دارید؟ وارد شوید</string>
+    <string name="profile_title">حمیدرضا منافی</string>
+    <string name="home_label">خانه</string>
+    <string name="cart_label">سبد خرید</string>
+    <string name="favorites_label">علاقه‌مندی‌ها</string>
+    <string name="category_label">دسته‌بندی</string>
+    <string name="default_list_item_title">عنوان پیش‌فرض</string>
+    <string name="default_list_item_id">شناسه پیش‌فرض</string>
+    <string name="banner_image_description">تصویر بنر: %1$s</string>
+    <string name="bottom_menu_home">خانه</string>
+    <string name="bottom_menu_cart">سبد خرید</string>
+    <string name="bottom_menu_favorites">علاقه‌مندی</string>
+    <string name="bottom_menu_category">دسته‌بندی</string>
+    <string name="bottom_menu_profile">پروفایل</string>
+    <string name="header_welcome_back">خوش آمدید</string>
+    <string name="header_favorites_icon_description">علاقه‌مندی‌ها</string>
+    <string name="header_search_icon_description">جستجو</string>
+    <string name="cart_screen_title">سبد خرید شما</string>
+    <string name="cart_empty_message">سبد خرید خالی است</string>
+    <string name="cart_item_total_label">مجموع آیتم‌ها:</string>
+    <string name="cart_tax_label">مالیات بر ارزش افزوده:</string>
+    <string name="cart_delivery_label">هزینه ارسال:</string>
+    <string name="cart_total_label">مجموع کل:</string>
+    <string name="cart_checkout_button">پرداخت</string>
+    <string name="cart_back_button_description">بازگشت</string>
+    <string name="cart_item_image_description">تصویر محصول: %1$s</string>
+    <string name="cart_item_price_label">قیمت: %1$.2f</string>
+    <string name="cart_item_total_each_label">مجموع: %1$.2f</string>
+    <string name="cart_decrease_quantity_button">-</string>
+    <string name="cart_increase_quantity_button">+</string>
+    <string name="cart_item_fee_each_time_format">%.2f$</string>
+
+    <string name="detail_back_button_description">بازگشت</string>
+    <string name="detail_favorite_button_description">مورد علاقه</string>
+    <string name="detail_product_image_description">محصول: %1$s</string>
+    <string name="detail_price_format">%1$.2f دلار</string>
+    <string name="detail_select_model_title">انتخاب مدل</string>
+    <string name="detail_rating_format">امتیاز %1$.1f</string>
+    <string name="detail_add_to_cart_button">افزودن به سبد خرید</string>
+    <string name="detail_cart_icon_description">سبد خرید</string>
+    <string name="detail_image_placeholder_description">جایگزین تصویر</string>
+</resources>
