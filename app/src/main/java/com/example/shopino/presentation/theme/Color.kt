@@ -1,4 +1,4 @@
-package com.example.shopino.ui.theme
+package com.example.shopino.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 
