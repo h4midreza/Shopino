@@ -15,13 +15,14 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.shopino.R
 import com.example.shopino.navigation.ScreenRoutes
-import com.example.shopino.presentation.intro.IntroScreen
 import com.example.shopino.presentation.screen.CartScreen
 import com.example.shopino.presentation.screen.DetailScreen
 import com.example.shopino.presentation.screen.FavouriteScreen
+import com.example.shopino.presentation.screen.IntroScreen
 import com.example.shopino.presentation.screen.ListItemScreen
 import com.example.shopino.presentation.screen.MainScreen
 import com.example.shopino.presentation.screen.ProfileScreen
+import com.example.shopino.presentation.screen.SearchScreen
 import com.example.shopino.presentation.viewmodel.CartViewModel
 import com.example.shopino.presentation.viewmodel.DetailViewModel
 import com.example.shopino.presentation.viewmodel.MainViewModel
@@ -37,6 +38,7 @@ class MainActivity : AppCompatActivity() {
                 NavHost(
                     navController = navController,
                     startDestination = ScreenRoutes.Intro.route,
+                    route = "app_nav_graph",
                 ) {
                     composable(ScreenRoutes.Intro.route) {
                         IntroScreen(
@@ -64,7 +66,10 @@ class MainActivity : AppCompatActivity() {
                         CartScreen(onBackClick = { navController.popBackStack() })
                     }
                     composable(ScreenRoutes.Favourite.route) {
-                        FavouriteScreen()
+                        FavouriteScreen(navController = navController)
+                    }
+                    composable(ScreenRoutes.Search.route) {
+                        SearchScreen(navController = navController)
                     }
 
                     composable(

@@ -1,90 +1,63 @@
 package com.example.shopino.presentation.screen
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.shopino.R
-import com.example.shopino.domain.model.ItemsModel
-import com.example.shopino.model.testRecommended
 import com.example.shopino.presentation.component.ListItemsFullSize
+import com.example.shopino.presentation.component.common.StandardTopAppBar
 import com.example.shopino.presentation.viewmodel.MainViewModel
+import com.example.shopino.presentation.viewmodel.ProductListUiState
 
 @Composable
 fun ListItemScreen(
     title: String,
     onBackClick: () -> Unit,
-    viewModel: MainViewModel,
+    viewModel: MainViewModel = hiltViewModel(),
     id: String,
     navController: NavController
 ) {
-    val item by viewModel.recommended.observeAsState(emptyList())
-    var isLoading by remember { mutableStateOf(true) }
-    val Filtered = remember { mutableStateListOf<ItemsModel>() }
-    var showFilteredLoading by remember { mutableStateOf(true) }
+    val screenState by viewModel.filteredProductListState.collectAsState()
 
-
-    LaunchedEffect(Unit) {
-        val testFiltered = testRecommended()
-        Filtered.clear()
-        Filtered.addAll(testFiltered)
-        showFilteredLoading = false
+    LaunchedEffect(key1 = id) {
+        viewModel.fetchProductsByCategory(id)
     }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        ConstraintLayout(modifier = Modifier.padding(top = 16.dp, start = 16.dp, end = 16.dp)) {
-            val (backBtn, cartTxt) = createRefs()
+        StandardTopAppBar(
+            title = title,
+            onBackClick = onBackClick
+        )
+        DisplayFilteredProductList(
+            screenState = screenState,
+            navController = navController
+        )
+    }
+}
 
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .constrainAs(cartTxt) { centerTo(parent) },
-                textAlign = TextAlign.Center,
-                fontWeight = FontWeight.Bold,
-                fontSize = 25.sp,
-                text = title
-            )
-
-            Image(
-                painter = painterResource(id = R.drawable.back),
-                contentDescription = null,
-                modifier = Modifier
-                    .clickable {
-                        onBackClick()
-                    }
-                    .constrainAs(backBtn) {
-                        top.linkTo(parent.top)
-                        start.linkTo(parent.start)
-                        bottom.linkTo(parent.bottom)
-                    }
-            )
-        }
-        if (isLoading) {
+@Composable
+fun DisplayFilteredProductList(
+    screenState: ProductListUiState,
+    navController: NavController
+) {
+    when {
+        screenState.isLoading -> {
             Box(
                 modifier = Modifier
                     .fillMaxSize(),
@@ -92,12 +65,31 @@ fun ListItemScreen(
             ) {
                 CircularProgressIndicator()
             }
-        } else {
-            ListItemsFullSize(items = Filtered, navController = navController)
         }
-    }
-
-    LaunchedEffect(item) {
-        isLoading = Filtered.isEmpty()
+        screenState.error != null -> {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(dimensionResource(id = R.dimen.padding_standard)),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(text = stringResource(id = R.string.error_loading_filtered_products,
+                    screenState.error
+                ))
+            }
+        }
+        screenState.items.isNotEmpty() -> {
+            ListItemsFullSize(items = screenState.items, navController = navController)
+        }
+        else -> {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(dimensionResource(id = R.dimen.padding_standard)),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(text = stringResource(id = R.string.no_filtered_products_found))
+            }
+        }
     }
 }

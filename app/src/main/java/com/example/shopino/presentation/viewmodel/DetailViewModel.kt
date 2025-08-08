@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.net.URLDecoder
 import javax.inject.Inject
 
 @HiltViewModel
@@ -27,14 +28,17 @@ class DetailViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            val itemJsonString = savedStateHandle.get<String>(ITEM_MODEL_KEY)
-            if (itemJsonString != null) {
+            val encodedItemJsonString = savedStateHandle.get<String>(ITEM_MODEL_KEY)
+            if (encodedItemJsonString != null) {
                 try {
+                    val itemJsonString = URLDecoder.decode(encodedItemJsonString, "UTF-8")
                     val deserializedItem = gson.fromJson(itemJsonString, ItemsModel::class.java)
                     _item.value = deserializedItem
                 } catch (e: Exception) {
                     _item.value = null
                 }
+            } else {
+                _item.value = null
             }
         }
     }

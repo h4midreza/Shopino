@@ -2,7 +2,6 @@ package com.example.shopino.presentation.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -31,14 +30,16 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp // Keep for ViewModel interactions or complex logic not suitable for dimens.xml
-import androidx.compose.ui.unit.sp // Keep for direct sp usage if needed, or convert from dimensionResource
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import com.example.shopino.R
 import com.example.shopino.domain.model.ItemsModel
+import com.example.shopino.presentation.component.common.StandardTopAppBar
 import com.example.shopino.presentation.viewmodel.CartViewModel
 import kotlin.math.round
 
@@ -50,7 +51,7 @@ fun CartScreen(
     val itemsFromVm by viewModel.cartItems.collectAsState()
     val totalFee by viewModel.totalPrice.collectAsState()
 
-    val percentTax = 0.02 // This could also be a constant or from a configuration
+    val percentTax = 0.02
     val taxValue = round(totalFee * percentTax * 100) / 100.0
 
     Box(
@@ -63,15 +64,20 @@ fun CartScreen(
                 .fillMaxSize()
                 .padding(bottom = dimensionResource(id = R.dimen.padding_bottom_for_summary))
         ) {
-            TopBar(onBackClick)
+
+            StandardTopAppBar(
+                title = stringResource(id = R.string.cart_screen_title),
+                onBackClick = onBackClick
+            )
 
             if (itemsFromVm.isEmpty()) {
                 Text(
                     text = stringResource(id = R.string.cart_empty_message),
                     modifier = Modifier
                         .fillMaxSize()
+                        .padding(horizontal = dimensionResource(id = R.dimen.padding_standard))
                         .wrapContentSize(Alignment.Center),
-                    fontSize = dimensionResource(id = R.dimen.font_size_medium).value.sp // Example of using sp conversion
+                    fontSize = dimensionResource(id = R.dimen.font_size_medium).value.sp
                 )
             } else {
                 CartList(
@@ -89,17 +95,17 @@ fun CartScreen(
             Surface(
                 tonalElevation = dimensionResource(id = R.dimen.elevation_medium),
                 shadowElevation = dimensionResource(id = R.dimen.elevation_medium),
-                color = Color.White, // Consider R.color.white
+                color = Color.White,
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
                     .fillMaxWidth()
-                    .background(Color.White) // Consider R.color.white
+                    .background(Color.White)
                     .padding(dimensionResource(id = R.dimen.padding_large))
             ) {
                 CartSummary(
                     itemTotal = totalFee,
                     tax = taxValue,
-                    delivery = 10.0 // Assuming fixed delivery, could be a constant or from config
+                    delivery = 10.0
                 )
             }
         }
@@ -129,8 +135,8 @@ fun CartSummary(itemTotal: Double, tax: Double, delivery: Double) {
                     fontSize = dimensionResource(id = R.dimen.font_size_normal).value.sp
                 )
                 Text(
-                    text = stringResource(R.string.cart_item_price_label, value), // Example for formatted string
-                    // text = "%.2f".format(value), // Or keep this if simple formatting is enough
+                    text = stringResource(R.string.cart_item_price_label, value),
+
                     fontSize = dimensionResource(id = R.dimen.font_size_normal).value.sp
                 )
             }
@@ -144,7 +150,7 @@ fun CartSummary(itemTotal: Double, tax: Double, delivery: Double) {
             modifier = Modifier
                 .fillMaxWidth()
                 .height(dimensionResource(id = R.dimen.cart_divider_height))
-                .background(colorResource(id = R.color.grey)) // Ensure R.color.grey exists
+                .background(colorResource(id = R.color.grey))
         )
 
         Row(
@@ -156,21 +162,21 @@ fun CartSummary(itemTotal: Double, tax: Double, delivery: Double) {
                 text = stringResource(id = R.string.cart_total_label),
                 Modifier.weight(1f),
                 fontWeight = FontWeight.Bold,
-                color = Color.Gray, // Consider R.color.text_secondary
+                color = Color.Gray,
                 fontSize = dimensionResource(id = R.dimen.font_size_medium).value.sp
             )
             Text(
                 text = stringResource(R.string.cart_item_price_label, total),
                 fontSize = dimensionResource(id = R.dimen.font_size_medium).value.sp,
-                fontWeight = FontWeight.Bold // Make total bold
+                fontWeight = FontWeight.Bold
             )
         }
 
         Button(
-            onClick = { /* TODO: Implement Checkout with ViewModel */ },
+            onClick = { },
             shape = RoundedCornerShape(dimensionResource(id = R.dimen.corner_radius_medium)),
             colors = ButtonDefaults.buttonColors(
-                containerColor = colorResource(id = R.color.purple) // Ensure R.color.purple exists
+                containerColor = colorResource(id = R.color.purple)
             ),
             modifier = Modifier
                 .padding(top = dimensionResource(id = R.dimen.padding_large))
@@ -194,7 +200,9 @@ private fun CartList(
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
-        modifier = modifier.padding(top = dimensionResource(id = R.dimen.cart_lazy_column_padding_top))
+        modifier = modifier
+            .padding(horizontal = dimensionResource(id = R.dimen.padding_standard))
+            .padding(top = dimensionResource(id = R.dimen.cart_lazy_column_padding_top))
     ) {
         items(cartItems) { item ->
             CardItem(
@@ -221,12 +229,18 @@ private fun CardItem(
         val (pic, titleTxt, feeEachTime, totalEachItem, quantity) = createRefs()
 
         Image(
-            painter = rememberAsyncImagePainter(item.picUrl.firstOrNull()),
-            contentDescription = stringResource(id = R.string.cart_item_image_description, item.title),
+            painter = rememberAsyncImagePainter(
+                model = item.imageUrl.ifEmpty { R.drawable.placeholder },
+                error = painterResource(id = R.drawable.placeholder)
+            ),
+            contentDescription = stringResource(
+                id = R.string.cart_item_image_description,
+                item.title
+            ),
             modifier = Modifier
                 .size(dimensionResource(id = R.dimen.cart_item_image_size))
                 .background(
-                    color = colorResource(id = R.color.lightGrey), // Ensure R.color.lightGrey exists
+                    color = colorResource(id = R.color.lightGrey),
                     shape = RoundedCornerShape(dimensionResource(id = R.dimen.corner_radius_medium))
                 )
                 .padding(dimensionResource(id = R.dimen.cart_item_image_padding))
@@ -241,15 +255,19 @@ private fun CardItem(
             text = item.title,
             fontWeight = FontWeight.Bold,
             fontSize = dimensionResource(id = R.dimen.font_size_medium).value.sp,
+            maxLines = 2,
+            overflow = TextOverflow.Ellipsis,
             modifier = Modifier.constrainAs(titleTxt) {
                 start.linkTo(pic.end, margin = 12.dp)
                 top.linkTo(parent.top)
+                end.linkTo(parent.end, margin = 8.dp)
+                width = Dimension.fillToConstraints
             }
         )
 
         Text(
             text = stringResource(id = R.string.cart_item_fee_each_time_format, item.price),
-            // text = "${item.price}", // Original
+
             color = colorResource(id = R.color.purple),
             fontSize = dimensionResource(id = R.dimen.font_size_normal).value.sp,
             modifier = Modifier.constrainAs(feeEachTime) {
@@ -259,7 +277,10 @@ private fun CardItem(
         )
 
         Text(
-            text = stringResource(id = R.string.cart_item_total_each_label, item.numberInCart * item.price),
+            text = stringResource(
+                id = R.string.cart_item_total_each_label,
+                item.numberInCart * item.price
+            ),
             fontSize = dimensionResource(id = R.dimen.font_size_medium).value.sp,
             fontWeight = FontWeight.SemiBold,
             modifier = Modifier.constrainAs(totalEachItem) {
@@ -279,16 +300,12 @@ private fun CardItem(
                     color = colorResource(id = R.color.lightGrey),
                     shape = RoundedCornerShape(dimensionResource(id = R.dimen.corner_radius_medium))
                 )
-                .padding(
-                    horizontal = dimensionResource(id = R.dimen.cart_item_quantity_row_horizontal_padding),
-                    vertical = dimensionResource(id = R.dimen.cart_item_quantity_row_vertical_padding)
-                )
         ) {
             IconButton(onClick = onMinusClick) {
                 Text(
                     stringResource(id = R.string.cart_decrease_quantity_button),
                     fontSize = dimensionResource(id = R.dimen.font_size_xlarge).value.sp,
-                    color = Color.Black // Consider R.color.text_primary
+                    color = Color.Black
                 )
             }
 
@@ -307,43 +324,5 @@ private fun CardItem(
                 )
             }
         }
-    }
-}
-
-@Composable
-private fun TopBar(onBackClick: () -> Unit) {
-    ConstraintLayout(
-        modifier = Modifier
-            .padding(
-                top = dimensionResource(id = R.dimen.cart_top_bar_padding_top),
-                bottom = dimensionResource(id = R.dimen.cart_top_bar_padding_bottom),
-                start = dimensionResource(id = R.dimen.cart_top_bar_horizontal_padding),
-                end = dimensionResource(id = R.dimen.cart_top_bar_horizontal_padding)
-            )
-            .fillMaxWidth() // Added for the text to truly center
-    ) {
-        val (backBtn, cartTxt) = createRefs()
-        Text(
-            modifier = Modifier
-                .fillMaxWidth()
-                .constrainAs(cartTxt) { centerTo(parent) },
-            text = stringResource(id = R.string.cart_screen_title),
-            textAlign = TextAlign.Center,
-            fontWeight = FontWeight.Bold,
-            fontSize = dimensionResource(id = R.dimen.font_size_title).value.sp
-        )
-
-        Image(
-            painter = painterResource(id = R.drawable.back), // Ensure R.drawable.back exists
-            contentDescription = stringResource(id = R.string.cart_back_button_description),
-            modifier = Modifier
-                .clickable { onBackClick() }
-                .constrainAs(backBtn) {
-                    top.linkTo(parent.top)
-                    start.linkTo(parent.start)
-                    bottom.linkTo(parent.bottom)
-                    centerVerticallyTo(cartTxt) // Center vertically with the title
-                }
-        )
     }
 }

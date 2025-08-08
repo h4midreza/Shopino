@@ -35,8 +35,8 @@ fun BannerCarousel(banners: List<SliderModel>) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(
-                        start = dimensionResource(id = R.dimen.padding_standard),
-                        end = dimensionResource(id = R.dimen.padding_standard),
+                        start = dimensionResource(id = R.dimen.padding_small),
+                        end = dimensionResource(id = R.dimen.padding_small),
                         top = dimensionResource(id = R.dimen.padding_standard),
                         bottom = dimensionResource(id = R.dimen.padding_small)
                     )

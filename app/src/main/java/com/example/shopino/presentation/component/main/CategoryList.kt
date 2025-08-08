@@ -1,5 +1,6 @@
 package com.example.shopino.presentation.component.main
 
+import android.net.Uri
 import android.os.Handler
 import android.os.Looper
 import androidx.compose.foundation.layout.Arrangement
@@ -9,10 +10,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
@@ -21,8 +21,8 @@ import com.example.shopino.R
 import com.example.shopino.domain.model.CategoryModel
 
 @Composable
-fun CategoryList(categories: SnapshotStateList<CategoryModel>, navController: NavController) {
-    var selectedIndex by remember { mutableStateOf(-1) }
+fun CategoryList(categories: List<CategoryModel>, navController: NavController) {
+    var selectedIndex by remember { mutableIntStateOf(-1) }
 
     Box(
         modifier = Modifier
@@ -44,8 +44,10 @@ fun CategoryList(categories: SnapshotStateList<CategoryModel>, navController: Na
                     onItemClick = {
                         selectedIndex = index
                         Handler(Looper.getMainLooper()).postDelayed({
-                            navController.navigate("list_items_screen/${category.title}/${category.id}")
-                        }, (1000))
+                            navController.navigate(
+                                "list_items_screen/${Uri.encode(category.displayName)}/${Uri.encode(category.apiName)}"
+                            )
+                        }, 300)
                     }
                 )
             }

@@ -8,7 +8,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -21,16 +20,17 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import coil.compose.rememberAsyncImagePainter
 import com.example.shopino.R
 import com.example.shopino.domain.model.ItemsModel
 import com.example.shopino.navigation.ScreenRoutes
@@ -41,15 +41,15 @@ fun ListItems(items: List<ItemsModel>, navController: NavController) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         modifier = Modifier
-            .height(500.dp)
-            .padding(horizontal = 8.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
+            .height(dimensionResource(R.dimen.list_items_lazy_grid_height))
+            .padding(horizontal = dimensionResource(R.dimen.list_items_lazy_grid_padding_horizontal)),
+        verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.list_items_lazy_grid_spacing_vertical)),
+        horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.list_items_lazy_grid_spacing_horizontal)),
     ) {
         items(items.size) { row ->
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.list_items_inner_row_spacing_horizontal))
             ) {
                 RecommendedItem(items, row, navController)
             }
@@ -63,14 +63,14 @@ fun ListItemsFullSize(items: List<ItemsModel>, navController: NavController) {
         columns = GridCells.Fixed(2),
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 8.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
+            .padding(horizontal = dimensionResource(R.dimen.list_items_lazy_grid_padding_horizontal)),
+        verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.list_items_lazy_grid_spacing_vertical)),
+        horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.list_items_lazy_grid_spacing_horizontal)),
     ) {
         items(items.size) { row ->
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.list_items_inner_row_spacing_horizontal))
             ) {
                 RecommendedItem(items, row, navController)
             }
@@ -85,68 +85,70 @@ fun RecommendedItem(
     navController: NavController
 ) {
     val context = LocalContext.current
+    val currentItem = items[pos]
+
     Column(
         modifier = Modifier
-            .padding(8.dp)
-            .height(225.dp)
+            .padding(dimensionResource(R.dimen.item_recommended_padding_column))
+            .height(dimensionResource(R.dimen.item_recommended_height_column))
     ) {
         Image(
-            painter = painterResource(
-                id = getDrawableIdByName(items[pos].picUrl.firstOrNull() ?: "", context)
+            painter = rememberAsyncImagePainter(
+                model = currentItem.imageUrl.ifEmpty { R.drawable.placeholder },
+                placeholder = painterResource(id = R.drawable.placeholder),
+                error = painterResource(id = R.drawable.placeholder)
             ),
-            contentDescription = items[pos].title,
+            contentDescription = currentItem.title,
             modifier = Modifier
-                .width(175.dp)
+                .width(dimensionResource(R.dimen.item_recommended_image_width))
                 .background(
                     color = colorResource(id = R.color.lightGrey),
-                    shape = RoundedCornerShape(8.dp)
+                    shape = RoundedCornerShape(dimensionResource(R.dimen.item_recommended_image_corner_radius))
                 )
-                .height(175.dp)
-                .padding(8.dp)
+                .height(dimensionResource(R.dimen.item_recommended_image_height))
+                .padding(dimensionResource(R.dimen.item_recommended_image_padding_internal))
                 .clickable {
-                    val itemToNavigate = items[pos]
                     val gson = Gson()
-                    val itemJson = gson.toJson(itemToNavigate)
-
+                    val itemJson = gson.toJson(currentItem)
                     navController.navigate(
                         ScreenRoutes.Detail.route + "/${Uri.encode(itemJson)}"
                     )
                 },
-            contentScale = ContentScale.Inside
+            contentScale = ContentScale.Crop
         )
 
         Text(
-            text = items[pos].title,
-            color = Color.Black,
-            fontSize = 16.sp,
+            text = currentItem.title,
+            color = colorResource(id = R.color.black),
+            fontSize = dimensionResource(R.dimen.item_recommended_title_font_size).value.sp,
             fontWeight = FontWeight.Bold,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
-            modifier = Modifier.padding(top = 8.dp)
+            modifier = Modifier.padding(top = dimensionResource(R.dimen.item_recommended_title_padding_top))
         )
         Row(
             modifier = Modifier
-                .padding(top = 4.dp)
+                .padding(top = dimensionResource(R.dimen.item_recommended_rating_price_row_padding_top))
                 .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Row {
+            Row(verticalAlignment = Alignment.CenterVertically) {
                 Image(
                     painter = painterResource(id = R.drawable.star),
-                    contentDescription = "Rating",
-                    modifier = Modifier.align(Alignment.CenterVertically)
+                    contentDescription = stringResource(R.string.detail_rating_format),
+                    modifier = Modifier.padding(end = dimensionResource(R.dimen.item_recommended_star_padding_end))
                 )
-                Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = items[pos].rating.toString(),
-                    color = Color.Black,
-                    fontSize = 15.sp,
+                    text = currentItem.ratingRate.toString(),
+                    color = colorResource(id = R.color.black),
+                    fontSize = dimensionResource(R.dimen.item_recommended_rating_font_size).value.sp,
                 )
             }
             Text(
-                text = "$${items[pos].price}",
+                text = stringResource(R.string.item_recommended_price_format, currentItem.price),
                 color = colorResource(id = R.color.purple),
-                fontSize = 18.sp,
+                fontSize = dimensionResource(R.dimen.item_recommended_price_font_size).value.sp,
                 fontWeight = FontWeight.Bold
             )
         }

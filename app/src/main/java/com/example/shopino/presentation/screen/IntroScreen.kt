@@ -34,7 +34,7 @@ fun IntroScreen(onClick: () -> Unit = {}) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
-            painter = painterResource(id = R.drawable.intro_logo),
+            painter = painterResource(id = R.drawable.logo_fa),
             contentDescription = null,
             modifier = Modifier
                 .padding(top = 48.dp)
