@@ -51,14 +51,13 @@ class CartViewModel @Inject constructor(
 
     fun decreaseItemQuantity(item: ItemsModel) {
         viewModelScope.launch {
-            managementCart.removeItem(item) // از متد جدید استفاده می کنیم
+            managementCart.removeItem(item)
             loadCartItems()
         }
     }
 
     fun increaseItemQuantity(item: ItemsModel) {
         viewModelScope.launch {
-            // برای افزایش، آیتمی با تعداد 1 به addItem می فرستیم
             managementCart.addItem(item.copy(numberInCart = 1))
             loadCartItems()
         }

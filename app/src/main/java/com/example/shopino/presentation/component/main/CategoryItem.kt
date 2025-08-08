@@ -11,13 +11,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.shopino.R
 import com.example.shopino.domain.model.CategoryModel
@@ -32,29 +33,30 @@ fun CategoryItem(
         modifier = Modifier
             .clickable(onClick = onItemClick)
             .background(
-                color = (if (isSelected) colorResource(id = R.color.purple) else Color.Transparent),
+                color = if (isSelected) colorResource(id = R.color.purple) else colorResource(id = R.color.transparent),
                 shape = RoundedCornerShape(dimensionResource(id = R.dimen.category_item_corner_radius))
             ),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
-            painter = painterResource(id = item.id),
-            contentDescription = item.title,
+            painter = painterResource(id = item.iconResId),
+            contentDescription = stringResource(R.string.category_icon_description, item.displayName),
             modifier = Modifier
                 .size(dimensionResource(id = R.dimen.category_item_image_size))
                 .background(
-                    color = if (isSelected) Color.Transparent else colorResource(id = R.color.lightGrey),
+                    color = if (isSelected) colorResource(id = R.color.transparent) else colorResource(id = R.color.lightGrey),
                     shape = RoundedCornerShape(dimensionResource(id = R.dimen.category_item_corner_radius))
-                ),
+                )
+                .padding(4.dp),
             contentScale = ContentScale.Inside,
-            colorFilter = if (isSelected) ColorFilter.tint(Color.White) else ColorFilter.tint(Color.Black)
+            colorFilter = if (isSelected) ColorFilter.tint(colorResource(id = R.color.white)) else ColorFilter.tint(colorResource(id = R.color.black))
         )
 
         if (isSelected) {
             Text(
-                text = item.title,
-                color = Color.White,
-                fontSize = 12.sp,
+                text = item.displayName,
+                color = colorResource(id = R.color.white),
+                fontSize = dimensionResource(id = R.dimen.category_item_font_size).value.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(end = dimensionResource(id = R.dimen.category_item_text_padding_end))
             )

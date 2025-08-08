@@ -1,109 +1,106 @@
 package com.example.shopino.presentation.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.shopino.domain.model.CategoryModel
+import androidx.lifecycle.viewModelScope
+import com.example.shopino.domain.model.CategoryModel // مدل جدید CategoryModel
 import com.example.shopino.domain.model.ItemsModel
 import com.example.shopino.domain.model.SliderModel
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.Query
-import com.google.firebase.database.ValueEventListener
+import com.example.shopino.domain.usecase.category.GetCategoriesUseCase // UseCase جدید
+import com.example.shopino.domain.usecase.product.GetProductByCategoryUseCase
+import com.example.shopino.domain.usecase.product.GetProductsUseCase
+import com.example.shopino.domain.util.Result
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.update
+import javax.inject.Inject
 
-class MainViewModel() : ViewModel(){
-    private val firebaseDatabase = FirebaseDatabase.getInstance()
+data class ProductListUiState(
+    val isLoading: Boolean = false,
+    val items: List<ItemsModel> = emptyList(),
+    val error: String? = null
+)
 
-    private val _banners = MutableLiveData<List<SliderModel>>()
-    val banners: LiveData<List<SliderModel>> = _banners
+data class CategoryListUiState(
+    val isLoading: Boolean = false,
+    val items: List<CategoryModel> = emptyList(),
+    val error: String? = null
+)
 
-    private val _category = MutableLiveData<MutableList<CategoryModel>>()
-    val category: LiveData<MutableList<CategoryModel>> = _category
+@HiltViewModel
+class MainViewModel @Inject constructor(
+    private val getProductsUseCase: GetProductsUseCase,
+    private val getProductsByCategoryUseCase: GetProductByCategoryUseCase,
+    private val getCategoriesUseCase: GetCategoriesUseCase
+) : ViewModel() {
 
-    private val _recommended = MutableLiveData<MutableList<ItemsModel>>()
-    val recommended: LiveData<MutableList<ItemsModel>> = _recommended
+    private val _productListState = MutableStateFlow(ProductListUiState())
+    val productListState: StateFlow<ProductListUiState> = _productListState.asStateFlow()
 
+    private val _filteredProductListState = MutableStateFlow(ProductListUiState())
+    val filteredProductListState: StateFlow<ProductListUiState> = _filteredProductListState.asStateFlow()
 
-    fun loadBanners() {
-        val ref = firebaseDatabase.getReference("banners")
-        ref.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val lists = mutableListOf<SliderModel>()
-                for (childSnapshot in snapshot.children) {
-                    val list = childSnapshot.getValue(SliderModel::class.java)
-                    if (list != null) {
-                        lists.add(list)
-                    }
-                }
-                _banners.value = lists
-            }
+    private val _categoryListState = MutableStateFlow(CategoryListUiState())
+    val categoryListState: StateFlow<CategoryListUiState> = _categoryListState.asStateFlow()
 
-            override fun onCancelled(error: DatabaseError) {
+    private val _banners = MutableStateFlow<List<SliderModel>>(emptyList())
+    val banners: StateFlow<List<SliderModel>> = _banners.asStateFlow()
 
-            }
-        })
+    init {
+        fetchProducts()
+        fetchCategories()
+        loadBannersFromMock()
     }
 
-    fun loadCategory() {
-        val ref = firebaseDatabase.getReference("category")
-        ref.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val lists = mutableListOf<CategoryModel>()
-                for (childSnapshot in snapshot.children) {
-                    val list = childSnapshot.getValue(CategoryModel::class.java)
-                    if (list != null) {
-                        lists.add(list)
-                    }
+    fun fetchProducts() {
+        getProductsUseCase().onEach { result ->
+            _productListState.update {
+                when (result) {
+                    is Result.Loading -> it.copy(isLoading = true, error = null)
+                    is Result.Success -> it.copy(isLoading = false, items = result.data, error = null)
+                    is Result.Error -> it.copy(isLoading = false, error = result.message ?: "Unknown product error")
                 }
-                _category.value = lists
             }
-
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-        })
+        }.launchIn(viewModelScope)
     }
 
-    fun loadRecommended() {
-        val ref = firebaseDatabase.getReference("recommended")
-        val query: Query = ref.orderByChild("showRecommended").equalTo(true)
-        query.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val lists = mutableListOf<ItemsModel>()
-                for (childSnapshot in snapshot.children) {
-                    val list = childSnapshot.getValue(ItemsModel::class.java)
-                    if (list != null) {
-                        lists.add(list)
-                    }
+    fun fetchProductsByCategory(categoryId: String) {
+        getProductsByCategoryUseCase(categoryId).onEach { result ->
+            _filteredProductListState.update {
+                when (result) {
+                    is Result.Loading -> it.copy(isLoading = true, error = null)
+                    is Result.Success -> it.copy(isLoading = false, items = result.data, error = null)
+                    is Result.Error -> it.copy(isLoading = false, error = result.message ?: "Unknown category product error")
                 }
-                _recommended.value = lists
             }
-
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-        })
+        }.launchIn(viewModelScope)
     }
 
-    fun loadFiltered(id: String) {
-        val ref = firebaseDatabase.getReference("Items")
-        val query: Query = ref.orderByChild("categoryId").equalTo(id)
-        query.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val lists = mutableListOf<ItemsModel>()
-                for (childSnapshot in snapshot.children) {
-                    val list = childSnapshot.getValue(ItemsModel::class.java)
-                    if (list != null) {
-                        lists.add(list)
-                    }
+    fun fetchCategories() {
+        getCategoriesUseCase().onEach { result ->
+            _categoryListState.update {
+                when (result) {
+                    is Result.Loading -> it.copy(isLoading = true, error = null)
+                    is Result.Success -> it.copy(isLoading = false, items = result.data, error = null)
+                    is Result.Error -> it.copy(isLoading = false, error = result.message ?: "Unknown category fetch error")
                 }
-                _recommended.value = lists
             }
+        }.launchIn(viewModelScope)
+    }
 
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-        })
+    fun loadBannersFromMock() {
+        val testBanners = listOf(
+            SliderModel(com.example.shopino.R.drawable.banner1),
+            SliderModel(com.example.shopino.R.drawable.banner2),
+            SliderModel(com.example.shopino.R.drawable.banner3),
+            SliderModel(com.example.shopino.R.drawable.banner4),
+            SliderModel(com.example.shopino.R.drawable.banner5),
+            SliderModel(com.example.shopino.R.drawable.banner6),
+            SliderModel(com.example.shopino.R.drawable.banner7),
+        )
+        _banners.value = testBanners
     }
 }

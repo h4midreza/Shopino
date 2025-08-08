@@ -22,4 +22,10 @@
     <color name="profile_action_card_buy_sell_background">#FFFFA500</color>
     <color name="profile_action_card_missions_background">#FF00BCD4</color>
     <color name="profile_action_card_text_icon_color">#FFFFFFFF</color>
+    <color name="transparent">#00000000</color>
+    <color name="background_main_screen">@color/white</color>
+    <color name="category_item_icon_selected_tint">@color/white</color>
+    <color name="category_item_icon_default_tint">@color/black</color>
+    <color name="category_item_text_selected_color">@color/white</color>
+    <color name="list_item_screen_title_color">@color/black</color>
 </resources>
