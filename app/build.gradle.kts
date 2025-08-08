@@ -5,6 +5,7 @@ plugins {
     kotlin("kapt")
     alias(libs.plugins.google.gms.google.services)
     alias(libs.plugins.compose.compiler)
+    id("kotlin-parcelize")
 }
 
 android {
@@ -90,6 +91,11 @@ dependencies {
 
     // --- JSON ---
     implementation(libs.gson)
+
+    // --- RETROFIT ---
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.logging.interceptor)
 
     // --- Testing ---
     testImplementation(libs.junit)

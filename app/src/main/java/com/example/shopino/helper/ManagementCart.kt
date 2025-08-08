@@ -23,7 +23,7 @@ class ManagementCart @Inject constructor(@ApplicationContext val context: Contex
 
     fun addItem(itemToAdd: ItemsModel) {
         val listItem = getListCart()
-        val existingItemIndex = listItem.indexOfFirst { it.id == itemToAdd.id } // فرض می شود id در ItemsModel نوع یکسانی دارد
+        val existingItemIndex = listItem.indexOfFirst { it.id == itemToAdd.id }
 
         if (existingItemIndex != -1) {
             listItem[existingItemIndex].numberInCart += itemToAdd.numberInCart
