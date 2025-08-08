@@ -42,11 +42,13 @@
     <string name="cart_item_fee_each_time_format">$%.2f</string>
 
     <string name="detail_back_button_description">Back</string>
-    <string name="detail_favorite_button_description">Favorite</string>
+    <string name="detail_favorite_button_description">Toggle Favorite</string>
     <string name="detail_product_image_description">Product: %1$s</string>
     <string name="detail_price_format">$ %1$.2f</string>
     <string name="detail_select_model_title">Select Model</string>
     <string name="detail_rating_format">%1$.1f Rating</string>
+    <string name="content_description_rating_star">Rating star</string>
+    <string name="rating_count_format">(%1$d)</string>
     <string name="detail_add_to_cart_button">Add to Cart</string>
     <string name="detail_cart_icon_description">Cart</string>
     <string name="detail_image_placeholder_description">Image placeholder</string>
@@ -91,8 +93,32 @@
     <string name="profile_menu_item_logout">Logout</string>
 
     <string name="profile_quick_access_increase_balance">Increase Balance</string>
-    <string name="profile_quick_access_buy_sell">Buy &amp; Sell</string> <!-- Use &amp; for ampersand -->
+    <string name="profile_quick_access_buy_sell">Buy &amp; Sell</string>
     <string name="profile_quick_access_shopino_missions">Shopino Missions</string>
     <string name="profile_action_card_icon_content_description">Action icon</string>
 
+    <string name="category_icon_description">Icon for %s category</string>
+    <string name="default_username">Hamidreza</string>
+    <string name="section_title_categories">Categories</string>
+    <string name="section_title_recommendation">Recommendation</string>
+    <string name="action_more">More</string>
+    <string name="action_see_all">More</string>
+    <string name="error_loading_products">Error loading products: %1$s</string>
+    <string name="error_loading_categories">Error loading categories: %1$s</string>
+    <string name="error_loading_filtered_products">Error loading items: %1$s</string>
+    <string name="unknown_error">An unknown error occurred</string>
+    <string name="no_products_found">No products found.</string>
+    <string name="no_categories_found">No categories found.</string>
+    <string name="no_filtered_products_found">No items found for this category.</string>
+    <string name="back_button_description">Back</string>
+
+    <string name="screen_title_favourites">Favourites</string>
+    <string name="favourites_empty_message">Your favourite list is empty.</string>
+    <string name="favourites_remove_button_desc">Remove from favourites</string>
+    <string name="item_recommended_price_format">$%.2f</string>
+
+    <string name="search_hint">Search products…</string>
+    <string name="search_icon_content_description">Search Icon</string>
+    <string name="search_prompt">Enter a search term to find products.</string>
+    <string name="clear_search_description">Clear search</string>
 </resources>
