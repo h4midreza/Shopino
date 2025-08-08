@@ -8,4 +8,5 @@ sealed class ScreenRoutes(val route: String) {
     data object Detail : ScreenRoutes("detail_screen")
     data object ListItem : ScreenRoutes("list_items_screen")
     data object Favourite : ScreenRoutes("favourite_screen")
+    data object Search : ScreenRoutes("search_screen")
 }
